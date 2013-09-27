@@ -103,6 +103,13 @@ Each custom method imitates a built-in list method, as described by the docstrin
 for each function. Play with the built-in methods in the Python REPL to get a feel
 for how they work before trying to write your custom version. You may also look at
 the test_list_operations.py file for concrete examples of expected behavior.
+    * List literals ([], ['hello'], [3, 1, 4, 1, 5, 9], etc.)
+    * List indexing (some_list[index])
+    * List indexing assignment (some_list[index] = value)
+    * List slicing (some_list[start:end])
+    * List slicing assignment (some_list[start:end] = another_list)
+    * List index deletion (del some_list[index])
+    * List slicing deletion (del some_list[start:end])
 """
 
 def custom_len(input_list):
@@ -110,45 +117,65 @@ def custom_len(input_list):
     x = 0
     for i in input_list:
         x += 1
-        return x
+    return x
 
 # For the next four functions, get clever using slice operations described in the first half
 def custom_append(input_list, value):
     """custom_append(input_list, value) imitates input_list.append(value)"""
-    input_list[custom_len(x)]
+    input_list[custom_len(input_list):] = [value]
 
 def custom_extend(input_list, values):
     """custom_extend(input_list, values) imitates input_list.extend(values)"""
-   
+    input_list[custom_len(input_list):] = values
 
 def custom_insert(input_list, index, value):
     """custom_insert(input_list, index, value) imitates
     input_list.insert(index, value)
     """
- 
+    input_list[index:index] = [value]
 
 def custom_remove(input_list, value):
     """custom_remove(input_list, value) imitates input_list.remove(value)"""
+    for i in range(custom_len(input_list)):
+        if input_list[i] == value:
+            del input_list[i]
+            break
 
 def custom_pop(input_list):
     """custom_pop(input_list) imitates input_list.pop()"""
-    pass
-
+    a = input_list[custom_len(input_list)-1]
+    del input_list[custom_len(input_list)-1]
+    return a
+    
 def custom_index(input_list, value):
     """custom_index(input_list, value) imitates input_list.index(value)"""
-    pass
+    for i in range(custom_len(input_list)):
+        if input_list[i] == value:
+            return i
 
 def custom_count(input_list, value):
     """custom_count(input_list, value) imitates input_list.count(value)"""
-    pass
+    count = 0
+    for i in range(custom_len(input_list)):
+        if input_list[i] == value:
+            count += 1
+    return count
 
 def custom_reverse(input_list):
     """custom_reverse(input_list) imitates input_list.reverse()"""
-    pass
+    for i in range(0, custom_len(input_list)/2):
+        a = input_list[i]
+        input_list[i] = input_list[custom_len(input_list)-1-i]
+        input_list[custom_len(input_list)-1-i] = a
+
+#find a list slice way to do it
+    
 
 def custom_contains(input_list, value):
     """custom_contains(input_list, value) imitates (value in input_list)"""
-    pass
+    for i in range(custom_len(input_list)):
+        if input_list[i] == value:
+            return True
 
 def custom_equality(some_list, another_list):
     """custom_equality(some_list, another_list) imitates
